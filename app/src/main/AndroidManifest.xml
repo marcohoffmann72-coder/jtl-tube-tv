@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Notwendig, damit die App als Android TV App im Launcher erkannt wird -->
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="JTLTube"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRTL="true"
+        android:theme="@style/Theme.Leanback">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:banner="@drawable/app_banner"
+            android:logo="@drawable/app_banner">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <!-- Wichtig für Android TV: Startet über die Leanback-Oberfläche -->
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+</manifest>
