@@ -1,4 +1,4 @@
-package com.example.jtltube
+package com.jtl.tubetv
 
 import android.content.Intent
 import android.os.Bundle
