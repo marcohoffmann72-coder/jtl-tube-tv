@@ -25,15 +25,15 @@ jobs:
         packages: 'platforms;android-34 build-tools;34.0.0'
         accept-license: true
 
-    - name: Build with Gradle 8.5
+    - name: Build with Gradle 8.8
       run: |
         # SDK-Pfad für den Compiler hinterlegen
         echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
         
-        # Gradle 8.5 direkt herunterladen und kompilieren
-        wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
-        unzip -q gradle-8.5-bin.zip
-        export PATH=$PWD/gradle-8.5/bin:$PATH
+        # Gradle 8.8 herunterladen (unterstützt SDK XML v4) und bauen
+        wget -q https://services.gradle.org/distributions/gradle-8.8-bin.zip
+        unzip -q gradle-8.8-bin.zip
+        export PATH=$PWD/gradle-8.8/bin:$PATH
         gradle :app:assembleDebug --stacktrace
 
     - name: Upload APK Artifact
