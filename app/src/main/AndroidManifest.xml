@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Zeigt Android TV, dass die App für Fernseher optimiert ist und keine Touchscreen-Bedienung braucht -->
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:label="JTL-Mediaplayer"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
-        <!-- Splash-Screen als Startpunkt (3 Sekunden) -->
+        <!-- Splash-Screen als Startpunkt mit Leanback-Launcher für den TV-Homescreen -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
 
