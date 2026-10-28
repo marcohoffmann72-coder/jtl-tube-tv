@@ -19,8 +19,13 @@ class QrLoginActivity : AppCompatActivity() {
         // Fokus direkt auf den "Neu laden"-Button setzen
         btnRefresh.requestFocus()
 
+        // Telegram-Manager beim Betreten der Ansicht vorbereiten
+        TelegramManager.initClient()
+        TelegramManager.requestQrLogin()
+
         btnRefresh.setOnClickListener {
             tvStatus.text = "QR-Code wird aktualisiert..."
+            TelegramManager.requestQrLogin()
             Toast.makeText(this, "Neuen QR-Code angefordert", Toast.LENGTH_SHORT).show()
         }
 
