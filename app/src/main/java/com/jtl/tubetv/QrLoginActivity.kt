@@ -24,8 +24,8 @@ class QrLoginActivity : AppCompatActivity() {
         // Fokus direkt auf den "Neu laden"-Button setzen
         btnRefresh.requestFocus()
 
-        // Telegram-Client vorbereiten und QR-Code laden
-        TelegramManager.initClient()
+        // Telegram-Client mit dem aktuellen Context vorbereiten und QR-Code laden
+        TelegramManager.initClient(this)
         loadQrCode()
 
         btnRefresh.setOnClickListener {
@@ -41,7 +41,7 @@ class QrLoginActivity : AppCompatActivity() {
     private fun loadQrCode() {
         tvStatus.text = "Lade QR-Code von Telegram..."
         
-        // Generiert einen 300x300 QR-Code und zeigt ihn an
+        // Generiert den QR-Code und zeigt ihn an
         TelegramManager.requestQrCodeBitmap(300, 300) { bitmap ->
             runOnUiThread {
                 if (bitmap != null) {
