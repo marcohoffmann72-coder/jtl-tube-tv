@@ -1,4 +1,4 @@
-package com.example.jtltube
+package com.jtl.tubetv
 
 import android.os.Bundle
 import android.widget.Button
