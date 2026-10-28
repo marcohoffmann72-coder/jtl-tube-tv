@@ -1,56 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.software.leanback" android:required="false" />
-    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
-
     <application
         android:allowBackup="true"
-        android:label="JTLTube"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
-        
-        <!-- SplashActivity mit Logo ist jetzt der Start-Bildschirm -->
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+        <!-- Splash-Screen als Startpunkt (3 Sekunden) -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Login-Bildschirm (QR-Code / Telefonnummer) -->
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
+        <!-- Login-Auswahl -->
+        <activity android:name=".LoginActivity" android:exported="false" />
 
-        <!-- Haupt-Bildschirm (ExoPlayer) -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-<application
-    ... >
+        <!-- QR-Code Login-Ansicht -->
+        <activity android:name=".QrLoginActivity" android:exported="false" />
 
-    <!-- Bestehende Activities -->
-    <activity
-        android:name=".SplashActivity"
-        android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-
-    <activity android:name=".LoginActivity" android:exported="false" />
-    
-    <!-- NEU: Diese Zeile hat gefehlt und den Absturz verursacht -->
-    <activity android:name=".QrLoginActivity" android:exported="false" />
-
-    <activity android:name=".MainActivity" android:exported="false" />
-
+        <!-- Haupt-Media-Player (ExoPlayer) -->
+        <activity android:name=".MainActivity" android:exported="false" />
 
     </application>
 
