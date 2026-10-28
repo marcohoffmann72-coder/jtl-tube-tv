@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:label="JTLTube"
         android:supportsRTL="true"
-        android:theme="@style/Theme.Leanback">
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
         <activity
             android:name=".MainActivity"
