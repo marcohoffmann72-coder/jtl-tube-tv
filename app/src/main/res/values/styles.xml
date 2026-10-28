@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Definiert das Leanback-Theme für Android TV fehlerfrei -->
+    <style name="Theme.Leanback" parent="android:Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+</resources>
