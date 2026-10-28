@@ -25,13 +25,14 @@ jobs:
         packages: 'platforms;android-34 build-tools;34.0.0'
         accept-license: true
 
-    - name: Build with Gradle 8.5
+    - name: Build with Gradle Wrapper
       run: |
+        # SDK-Pfad für den Compiler hinterlegen
         echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
-        wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
-        unzip -q gradle-8.5-bin.zip
-        export PATH=$PWD/gradle-8.5/bin:$PATH
-        gradle :app:assembleDebug --stacktrace
+        
+        # Ausführungsrechte für den Wrapper vergeben und bauen
+        chmod +x gradlew
+        ./gradlew assembleDebug --stacktrace
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
