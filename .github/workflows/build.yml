@@ -19,10 +19,17 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Build with Gradle Action
-      uses: eskatos/gradle-command-action@v3
-      with:
-        arguments: assembleDebug
+    - name: Setup Gradle Environment
+      uses: gradle/actions/setup-gradle@v3
+
+    - name: Download Gradle & Build APK
+      run: |
+        wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
+        unzip -q gradle-8.5-bin.zip
+        export PATH=$PWD/gradle-8.5/bin:$PATH
+        gradle wrapper --gradle-version 8.5
+        chmod +x gradlew
+        ./gradlew assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
