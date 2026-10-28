@@ -1,5 +1,6 @@
 package com.jtl.tubetv
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -14,15 +15,16 @@ class LoginActivity : AppCompatActivity() {
         val btnQr = findViewById<Button>(R.id.btn_qr_login)
         val btnPhone = findViewById<Button>(R.id.btn_phone_login)
 
-        // Fokus direkt auf den QR-Code-Button für die Fernbedienung setzen
         btnQr.requestFocus()
 
         btnQr.setOnClickListener {
-            Toast.makeText(this, "QR-Code-Login wird gestartet...", Toast.LENGTH_SHORT).show()
+            // Öffnet die QR-Login-Ansicht
+            val intent = Intent(this, QrLoginActivity::class.java)
+            startActivity(intent)
         }
 
         btnPhone.setOnClickListener {
-            Toast.makeText(this, "Telefonnummer-Login wird gestartet...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Telefonnummer-Login folgt als Nächstes...", Toast.LENGTH_SHORT).show()
         }
     }
 }
