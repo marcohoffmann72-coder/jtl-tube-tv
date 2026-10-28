@@ -35,4 +35,7 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer:1.2.1")
     implementation("androidx.media3:media3-ui:1.2.1")
     implementation("androidx.media3:media3-common:1.2.1")
+    implementation 'io.github.tdlib-android:core:0.1.1'
+    implementation 'io.github.tdlib-android:ktx:0.1.1'
+
 }
