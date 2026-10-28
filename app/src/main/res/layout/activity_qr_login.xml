@@ -17,30 +17,47 @@
         android:textStyle="bold"
         android:layout_marginBottom="24dp" />
 
-    <!-- Platzhalter für den QR-Code (später TDLib QR-Daten) -->
+    <!-- Platzhalter für den QR-Code (später TDLib QR-Token) -->
     <ImageView
         android:id="@+id/iv_qr_code"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:background="@android:color/white"
         android:padding="12dp"
         android:src="@android:drawable/ic_menu_gallery"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="QR-Code" />
 
     <TextView
+        android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scanne diesen Code mit deiner Telegram-App"
+        android:text="Warte auf QR-Daten von TDLib..."
         android:textColor="@android:color/darker_gray"
-        android:textSize="16sp"
-        android:layout_marginBottom="32dp" />
+        android:textSize="14sp"
+        android:layout_marginBottom="24dp" />
 
-    <Button
-        android:id="@+id/btn_back_login"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:text="Zurück"
-        android:focusable="true" />
+    <!-- Button-Container für die Fernbedienung -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_refresh_qr"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="Neu laden"
+            android:focusable="true"
+            android:layout_marginEnd="16dp" />
+
+        <Button
+            android:id="@+id/btn_back_login"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="Zurück"
+            android:focusable="true" />
+
+    </LinearLayout>
 
 </LinearLayout>
