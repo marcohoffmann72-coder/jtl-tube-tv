@@ -11,12 +11,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        
+        // PlayerView für die Video-Wiedergabe initialisieren
+        val playerView = PlayerView(this)
+        setContentView(playerView)
 
-        val playerView = findViewById<PlayerView>(R.id.playerView)
         player = ExoPlayer.Builder(this).build().also { exoPlayer ->
             playerView.player = exoPlayer
-            // Test-Stream zur Verifizierung des Media3-Players
+            // Test-Streaming-URL für Android TV
             val mediaItem = MediaItem.fromUri("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
             exoPlayer.setMediaItem(mediaItem)
             exoPlayer.prepare()
