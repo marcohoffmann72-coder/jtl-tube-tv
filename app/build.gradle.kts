@@ -1,38 +1,37 @@
-name: Build Android APK
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
 
-on:
-  push:
-    branches: [ "main", "master" ]
-  workflow_dispatch:
+android {
+    namespace = "com.jtl.tubetv"
+    compileSdk = 34
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+    defaultConfig {
+        applicationId = "com.jtl.tubetv"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+    }
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v5
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
 
-    - name: Setup Android SDK 34
-      uses: android-actions/setup-android@v3
-      with:
-        packages: 'platforms;android-34 build-tools;34.0.0'
-
-    - name: Download & Build with Gradle 8.5
-      run: |
-        wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
-        unzip -q gradle-8.5-bin.zip
-        export PATH=$PWD/gradle-8.5/bin:$PATH
-        gradle :app:assembleDebug
-
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: jtl-tube-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+dependencies {
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    
+    // Media3 ExoPlayer
+    implementation("androidx.media3:media3-exoplayer:1.2.1")
+    implementation("androidx.media3:media3-ui:1.2.1")
+    implementation("androidx.media3:media3-common:1.2.1")
+}
