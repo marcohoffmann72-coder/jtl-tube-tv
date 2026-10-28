@@ -21,7 +21,6 @@ class QrLoginActivity : AppCompatActivity() {
 
         btnRefresh.setOnClickListener {
             tvStatus.text = "QR-Code wird aktualisiert..."
-            Toast.Timeout = Toast.LENGTH_SHORT
             Toast.makeText(this, "Neuen QR-Code angefordert", Toast.LENGTH_SHORT).show()
         }
 
