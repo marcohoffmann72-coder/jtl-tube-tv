@@ -19,14 +19,13 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Build with Gradle 8.5
-      run: |
-        # Android SDK Lizenzen auf dem Runner hinterlegen
-        mkdir -p $ANDROID_HOME/licenses
-        echo "24333f8a43b682ff28c53051af82643cec04d3bf" > $ANDROID_HOME/licenses/android-sdk-license
-        echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $ANDROID_HOME/licenses/android-sdk-license
+    - name: Setup Android SDK 34
+      uses: android-actions/setup-android@v3
+      with:
+        packages: 'platforms;android-34 build-tools;34.0.0'
 
-        # Gradle 8.5 herunterladen und direkt bauen
+    - name: Download & Build with Gradle 8.5
+      run: |
         wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
         unzip -q gradle-8.5-bin.zip
         export PATH=$PWD/gradle-8.5/bin:$PATH
