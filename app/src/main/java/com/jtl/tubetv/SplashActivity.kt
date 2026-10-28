@@ -12,11 +12,11 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Nach 2 Sekunden automatisch zur LoginActivity weiterleiten
+        // Nach genauen 3 Sekunden zur LoginActivity weiterleiten
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
-        }, 2000)
+        }, 3000) // 3000 ms = 3 Sekunden
     }
 }
