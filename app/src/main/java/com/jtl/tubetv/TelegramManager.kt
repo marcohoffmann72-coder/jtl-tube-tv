@@ -9,37 +9,33 @@ import com.google.zxing.qrcode.QRCodeWriter
 object TelegramManager {
 
     private const val TAG = "TelegramManager"
-    private var isInitialized = false
+    
+    // Deine offiziellen Telegram API-Zugangsdaten aus der Konfiguration[span_1](start_span)[span_1](end_span)
+    private const val API_ID: Int = 39640144
+    private const val API_HASH: String = "8254d4848a11db32f56b54d736cbe142"
 
-    init {
-        try {
-            // Hier werden später die nativen TDLib C++ Bibliotheken geladen (.so Dateien)
-            // System.loadLibrary("tdjni")
-        } catch (e: UnsatisfiedLinkError) {
-            Log.e(TAG, "Native TDLib noch nicht geladen: ${e.message}")
-        }
-    }
+    private var isInitialized = false
 
     fun initClient() {
         if (isInitialized) return
-        Log.d(TAG, "TDLib Client wird initialisiert...")
-        // TODO: TDLib Parameter (api_id, api_hash, files_dir) setzen
+        Log.d(TAG, "TDLib Client wird mit API_ID: $API_ID initialisiert...")
+        // Hier werden später die TDLib-Parametrisierungen mit API_ID und API_HASH übergeben
         isInitialized = true
     }
 
     // Fordert den QR-Login-Link an und übergibt ihn als generierten QR-Code Bitmap zurück
     fun requestQrCodeBitmap(width: Int, height: Int, onResult: (Bitmap?) -> Unit) {
-        Log.d(TAG, "Fordere Telegram QR-Login an...")
+        Log.d(TAG, "Fordere Telegram QR-Login an (API_ID: $API_ID)...")
         
-        // Später kommt hier der echte Telegram-Auth-Token aus der TDLib hin.
-        // Für den Anfang nutzen wir einen Test-Link, der in einen echten QR-Code umgewandelt wird:
+        // Später wird hier der echte Authentifizierungs-Link von TDLib abgefangen.
+        // Bis die native TDLib komplett eingebunden ist, nutzen wir den funktionierenden Generator:
         val authUrl = "https://t.me/login/jtl_tv_demo_token"
         
         val bitmap = generateQRCode(authUrl, width, height)
         onResult(bitmap)
     }
 
-    // Hilfsfunktion: Wandelt einen String in einen QR-Code Bitmap um
+    // Hilfsfunktion: Wandelt den String in einen QR-Code Bitmap um
     private fun generateQRCode(text: String, width: Int, height: Int): Bitmap? {
         return try {
             val writer = QRCodeWriter()
