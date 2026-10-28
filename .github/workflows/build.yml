@@ -24,11 +24,12 @@ jobs:
       with:
         packages: 'platforms;android-34 build-tools;34.0.0'
 
-    - name: Setup Gradle Environment
-      uses: gradle/actions/setup-gradle@v3
-
-    - name: Build APK with Gradle
-      run: gradle assembleDebug
+    - name: Download & Build with Gradle 8.5
+      run: |
+        wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
+        unzip -q gradle-8.5-bin.zip
+        export PATH=$PWD/gradle-8.5/bin:$PATH
+        gradle assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
