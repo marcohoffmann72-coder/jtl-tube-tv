@@ -38,9 +38,13 @@ object TelegramManager {
             filesDir.mkdirs()
         }
 
-        // TDLib Client starten
+        // TDLib Client starten und Updates korrekt abfangen
         client = Client.create(
-            { update -> handleUpdate(update) },
+            { tdObject -> 
+                if (tdObject is TdApi.Update) {
+                    handleUpdate(tdObject)
+                }
+            },
             { throwable -> Log.e(TAG, "TDLib Error: ${throwable.message}") },
             { throwable -> Log.e(TAG, "TDLib Fatal Error: ${throwable.message}") }
         )
@@ -54,7 +58,6 @@ object TelegramManager {
                         sendTdlibParameters()
                     }
                     is TdApi.AuthorizationStateWaitPhoneNumber -> {
-                        // Wir wollen direkt den QR-Login erzwingen
                         requestQrLogin()
                     }
                     is TdApi.AuthorizationStateWaitOtherDeviceConfirmation -> {
@@ -92,14 +95,14 @@ object TelegramManager {
             if (result is TdApi.Error) {
                 Log.e(TAG, "Fehler bei SetTdlibParameters: ${result.message}")
             } else {
-                // Nach Parametern direkt QR-Login anfordern
                 requestQrLogin()
             }
         }
     }
 
     private fun requestQrLogin() {
-        client?.send(TdApi.RequestQrCodeAuthentication(emptyArray())) { result ->
+        // Korrektur: LongArray(0) übergeben, um dem erwarteten Typ zu entsprechen
+        client?.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) { result ->
             if (result is TdApi.Error) {
                 Log.e(TAG, "Fehler beim Anfordern des QR-Logins: ${result.message}")
             }
@@ -107,7 +110,6 @@ object TelegramManager {
     }
 
     fun requestQrCodeBitmap(width: Int, height: Int, callback: (Bitmap?) -> Unit) {
-        // Falls ein echter Link da ist, generieren wir ihn, sonst vorerst einen Fallback/Wartelink
         val linkToEncode = currentQrCodeLink ?: "https://t.me/login/jtl_tv_waiting"
         
         try {
