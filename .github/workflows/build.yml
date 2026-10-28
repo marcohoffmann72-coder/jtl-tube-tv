@@ -24,16 +24,13 @@ jobs:
       with:
         packages: 'platforms;android-34 build-tools;34.0.0'
 
-    - name: Build with Gradle 8.5
+    - name: Build with Gradle 8.5 (Verbose)
       run: |
-        # SDK-Pfad korrekt in local.properties schreiben
         echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
-        
-        # Gradle 8.5 herunterladen und bauen
         wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
         unzip -q gradle-8.5-bin.zip
         export PATH=$PWD/gradle-8.5/bin:$PATH
-        gradle :app:assembleDebug
+        gradle :app:assembleDebug --stacktrace --info
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
