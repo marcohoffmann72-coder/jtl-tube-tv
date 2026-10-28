@@ -7,14 +7,12 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <!-- Platzhalter für dein Logo (später kannst du hier eine Grafik einbinden) -->
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@android:drawable/ic_media_play"
-        android:contentDescription="JTL-Mediaplayer Logo"
-        android:tint="@android:color/white" />
+        android:contentDescription="Logo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +21,6 @@
         android:text="JTL-Mediaplayer"
         android:textColor="@android:color/white"
         android:textSize="32sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.05" />
+        android:textStyle="bold" />
 
 </LinearLayout>
