@@ -5,10 +5,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <!-- ExoPlayer View für Video- und Stream-Wiedergabe -->
+    <!-- ExoPlayer View mit aktivierten TV-Steuerelementen -->
     <androidx.media3.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:use_controller="true"
+        app:show_buffering="always" />
 
 </FrameLayout>
