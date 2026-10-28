@@ -21,6 +21,10 @@ jobs:
 
     - name: Build with Gradle 8.5
       run: |
+        # Android SDK Pfad für den Gradle-Compiler hinterlegen
+        echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+        
+        # Gradle 8.5 herunterladen und bauen
         wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
         unzip -q gradle-8.5-bin.zip
         export PATH=$PWD/gradle-8.5/bin:$PATH
