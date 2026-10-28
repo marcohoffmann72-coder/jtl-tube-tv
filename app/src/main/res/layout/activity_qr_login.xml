@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="48dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Telegram QR-Code Login"
+        android:textColor="@android:color/white"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Platzhalter für den QR-Code (später TDLib QR-Daten) -->
+    <ImageView
+        android:id="@+id/iv_qr_code"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:background="@android:color/white"
+        android:padding="12dp"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="QR-Code" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scanne diesen Code mit deiner Telegram-App"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/btn_back_login"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Zurück"
+        android:focusable="true" />
+
+</LinearLayout>
