@@ -11,8 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         
+        <!-- SplashActivity mit Logo ist jetzt der Start-Bildschirm -->
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +21,17 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Login-Bildschirm (QR-Code / Telefonnummer) -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
+        <!-- Haupt-Bildschirm (ExoPlayer) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
