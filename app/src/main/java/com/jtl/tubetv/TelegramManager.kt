@@ -1,41 +1,44 @@
 package com.jtl.tubetv
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
+import java.io.File
 
 object TelegramManager {
 
     private const val TAG = "TelegramManager"
     
-    // Deine offiziellen Telegram API-Zugangsdaten aus der Konfiguration[span_1](start_span)[span_1](end_span)
     private const val API_ID: Int = 39640144
     private const val API_HASH: String = "8254d4848a11db32f56b54d736cbe142"
 
     private var isInitialized = false
 
-    fun initClient() {
+    fun initClient(context: Context) {
         if (isInitialized) return
-        Log.d(TAG, "TDLib Client wird mit API_ID: $API_ID initialisiert...")
-        // Hier werden später die TDLib-Parametrisierungen mit API_ID und API_HASH übergeben
+        
+        val filesDir = File(context.filesDir, "tdlib")
+        if (!filesDir.exists()) {
+            filesDir.mkdirs()
+        }
+        
+        Log.d(TAG, "TDLib Client wird initialisiert. Pfad: ${filesDir.absolutePath}")
+        // Hier wird später der TDLib-Client mit den Parametern (api_id, api_hash, filesDir) gestartet
+        
         isInitialized = true
     }
 
-    // Fordert den QR-Login-Link an und übergibt ihn als generierten QR-Code Bitmap zurück
     fun requestQrCodeBitmap(width: Int, height: Int, onResult: (Bitmap?) -> Unit) {
-        Log.d(TAG, "Fordere Telegram QR-Login an (API_ID: $API_ID)...")
+        Log.d(TAG, "Fordere Telegram QR-Login an...")
         
-        // Später wird hier der echte Authentifizierungs-Link von TDLib abgefangen.
-        // Bis die native TDLib komplett eingebunden ist, nutzen wir den funktionierenden Generator:
         val authUrl = "https://t.me/login/jtl_tv_demo_token"
-        
         val bitmap = generateQRCode(authUrl, width, height)
         onResult(bitmap)
     }
 
-    // Hilfsfunktion: Wandelt den String in einen QR-Code Bitmap um
     private fun generateQRCode(text: String, width: Int, height: Int): Bitmap? {
         return try {
             val writer = QRCodeWriter()
