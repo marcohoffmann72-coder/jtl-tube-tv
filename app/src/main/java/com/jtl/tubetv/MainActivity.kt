@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         player = ExoPlayer.Builder(this).build().also { exoPlayer ->
             playerView.player = exoPlayer
 
-            // Test-Stream (später durch deine Telegram/Media-Streams ersetzen)
+            // Test-Stream (später durch deine Telegram-Streams ersetzt)
             val mediaItem = MediaItem.fromUri("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
             exoPlayer.setMediaItem(mediaItem)
             exoPlayer.prepare()
