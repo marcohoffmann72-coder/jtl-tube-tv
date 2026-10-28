@@ -1,38 +1,49 @@
-name: Build Android APK
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
 
-on:
-  push:
-    branches: [ "main", "master" ]
-  workflow_dispatch:
+android {
+    namespace = "com.jtl.tubetv"
+    compileSdk = 34
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+    defaultConfig {
+        applicationId = "com.jtl.tubetv"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
 
-    - name: Download & Setup Gradle 8.5
-      run: |
-        wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
-        unzip -q gradle-8.5-bin.zip
-        echo "$PWD/gradle-8.5/bin" >> $GITHUB_PATH
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
-    - name: Build APK
-      run: |
-        gradle wrapper --gradle-version 8.5
-        chmod +x gradlew
-        ./gradlew assembleDebug
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
 
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: jtl-tube-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+dependencies {
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    
+    // Media3 ExoPlayer für das Video-Streaming
+    implementation("androidx.media3:media3-exoplayer:1.2.1")
+    implementation("androidx.media3:media3-ui:1.2.1")
+    implementation("androidx.media3:media3-common:1.2.1")
+}
