@@ -19,8 +19,8 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Gradle Environment
-      uses: gradle/actions/setup-gradle@v3
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
 
     - name: Download Gradle & Build APK
       run: |
