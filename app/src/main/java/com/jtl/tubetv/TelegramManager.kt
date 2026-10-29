@@ -65,8 +65,9 @@ object TelegramManager {
                         Log.i(TAG, "QR-Link empfangen: $currentQrCodeLink")
                         generateAndNotifyQrBitmap()
                     }
-                    is TdApi.AuthorizationStateReady -> {
+                                        is TdApi.AuthorizationStateReady -> {
                         Log.i(TAG, "Erfolgreich bei Telegram eingeloggt!")
+                        onLoginSuccess?.invoke()
                     }
                     else -> {
                         Log.d(TAG, "Anderer Auth-State: ${update.authorizationState}")
