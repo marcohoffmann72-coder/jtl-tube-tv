@@ -1,42 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Zeigt Android TV, dass die App für Fernseher optimiert ist und keine Touchscreen-Bedienung braucht -->
-    <uses-feature
-        android:name="android.hardware.touchscreen"
-        android:required="false" />
-    <uses-feature
-        android:name="android.software.leanback"
-        android:required="true" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-    android:name=".App"
-    android:allowBackup="true"
-    android:icon="@android:drawable/sym_def_app_icon"
-    android:roundIcon="@android:drawable/sym_def_app_icon"
-    android:banner="@drawable/app_banner"
-    android:label="@string/app_name"
-    android:supportsRtl="true"
-    android:theme="@style/Theme.JtlTubeTv">
-        <!-- Splash-Screen als Startpunkt mit Leanback-Launcher für den TV-Homescreen -->
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:roundIcon="@android:drawable/sym_def_app_icon"
+        android:banner="@drawable/app_banner"
+        android:label="JTL-Mediaplayer"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+
         <activity
-            android:name=".SplashActivity"
-            android:exported="true">
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Login-Auswahl -->
-        <activity android:name=".LoginActivity" android:exported="false" />
-
-        <!-- QR-Code Login-Ansicht -->
-        <activity android:name=".QrLoginActivity" android:exported="false" />
-
-        <!-- Haupt-Media-Player (ExoPlayer) -->
-        <activity android:name=".MainActivity" android:exported="false" />
 
     </application>
 
