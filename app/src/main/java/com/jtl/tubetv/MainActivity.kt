@@ -9,7 +9,14 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Telegram Client beim App-Start initialisieren
+        // 1. Telegram Client beim App-Start initialisieren
         TelegramManager.initClient(applicationContext)
+
+        // 2. Das QR-Login Fragment auf dem Bildschirm anzeigen
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, QrLoginFragment())
+                .commit()
+        }
     }
 }
