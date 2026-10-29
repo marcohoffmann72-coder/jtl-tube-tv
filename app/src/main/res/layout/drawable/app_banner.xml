@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Hintergrund mit abgerundeten Ecken und edlem Dunkelgrau -->
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="#1A1A1A"/>
-            <corners android:radius="12dp"/>
-            <stroke android:width="2dp" android:color="#333333"/>
-        </shape>
-    </item>
-    
-    <!-- Akzent-Linie an der Seite -->
-    <item android:left="16dp" android:top="20dp" android:bottom="20dp" android:width="6dp">
-        <shape android:shape="rectangle">
-            <solid android:color="#4CAF50"/>
-            <corners android:radius="3dp"/>
-        </shape>
-    </item>
-
-    <!-- Text-Ersatz / Branding im Banner (kann per Shape stilisiert werden) -->
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Ein dunkler, eleganter Hintergrund für das TV-Banner -->
+    <solid android:color="#212121" />
+    <corners android:radius="8dp" />
+    <stroke android:width="3dp" android:color="#4CAF50" />
+</shape>
