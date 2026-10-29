@@ -26,19 +26,24 @@ class QrLoginFragment : Fragment() {
         ivQrCode = view.findViewById(R.id.ivQrCode)
         tvStatus = view.findViewById(R.id.tvStatus)
 
-        tvStatus.text = "Status: Warte auf Telegram-Verbindung..."
+        tvStatus.text = "Status: Verbinde mit Telegram..."
 
-        // QR-Code anzeigen, sobald er bereit ist
+        // QR-Code anzeigen, sobald TDLib den echten Link liefert
         TelegramManager.onQrCodeReady = { bitmap: Bitmap? ->
             bitmap?.let { bmp ->
                 activity?.runOnUiThread {
                     ivQrCode.setImageBitmap(bmp)
-                    tvStatus.text = "Status: QR-Code bereit zum Scannen!"
+                    tvStatus.text = "Status: Bitte mit Telegram scannen!"
+                    tvStatus.setTextColor(android.graphics.Color.parseColor("#4CAF50"))
                 }
-            } ?: run {
-                activity?.runOnUiThread {
-                    tvStatus.text = "Status: Fehler beim Generieren des QR-Codes"
-                }
+            }
+        }
+
+        // Fehler direkt auf dem TV anzeigen
+        TelegramManager.onError = { errorMsg ->
+            activity?.runOnUiThread {
+                tvStatus.text = errorMsg
+                tvStatus.setTextColor(android.graphics.Color.parseColor("#F44336"))
             }
         }
 
@@ -49,15 +54,6 @@ class QrLoginFragment : Fragment() {
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, MainFragment())
                     .commit()
-            }
-        }
-
-        // Initialer Versuch
-        TelegramManager.requestQrCodeBitmap(300, 300) { bitmap: Bitmap? ->
-            bitmap?.let { bmp ->
-                activity?.runOnUiThread {
-                    ivQrCode.setImageBitmap(bmp)
-                }
             }
         }
     }
