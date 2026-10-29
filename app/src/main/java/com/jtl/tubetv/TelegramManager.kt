@@ -63,7 +63,6 @@ object TelegramManager {
                         val state = update.authorizationState as TdApi.AuthorizationStateWaitOtherDeviceConfirmation
                         currentQrCodeLink = state.link
                         Log.i(TAG, "QR-Link empfangen: $currentQrCodeLink")
-                        // QR-Code direkt generieren und an die UI senden
                         generateAndNotifyQrBitmap()
                     }
                     is TdApi.AuthorizationStateReady -> {
@@ -119,7 +118,8 @@ object TelegramManager {
             val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
             for (x in 0 until width) {
                 for (y in 0 until height) {
-                    bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+                    // Korrektur: .get(x, y) statt [x, y] für Java-Interoperabilität
+                    bmp.setPixel(x, y, if (bitMatrix.get(x, y)) Color.BLACK else Color.WHITE)
                 }
             }
             onQrCodeReady?.invoke(bmp)
