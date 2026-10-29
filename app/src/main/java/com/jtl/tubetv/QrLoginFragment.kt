@@ -1,5 +1,6 @@
 package com.jtl.tubetv
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,8 +23,17 @@ class QrLoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         ivQrCode = view.findViewById(R.id.ivQrCode)
 
-        // Auf QR-Code Updates vom TelegramManager lauschen
-        TelegramManager.onQrCodeReady = { bitmap ->
+        // Explizite Typisierung von bitmap: Bitmap?
+        TelegramManager.onQrCodeReady = { bitmap: Bitmap? ->
+            bitmap?.let { bmp ->
+                activity?.runOnUiThread {
+                    ivQrCode.setImageBitmap(bmp)
+                }
+            }
+        }
+
+        // Direkt initial versuchen zu laden
+        TelegramManager.requestQrCodeBitmap(300, 300) { bitmap: Bitmap? ->
             bitmap?.let { bmp ->
                 activity?.runOnUiThread {
                     ivQrCode.setImageBitmap(bmp)
