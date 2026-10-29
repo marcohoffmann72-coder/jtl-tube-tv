@@ -22,7 +22,7 @@ object TelegramManager {
 
     private var currentQrCodeLink: String? = null
     var onQrCodeReady: ((Bitmap?) -> Unit)? = null
-
+    var onLoginSuccess: (() -> Unit)? = null
     fun initClient(context: Context) {
         if (isInitialized.getAndSet(true)) return
 
