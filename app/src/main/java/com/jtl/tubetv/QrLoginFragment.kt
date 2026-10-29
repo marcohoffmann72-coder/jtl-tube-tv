@@ -23,12 +23,21 @@ class QrLoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         ivQrCode = view.findViewById(R.id.ivQrCode)
 
-        // Explizite Typisierung von bitmap: Bitmap?
+        // QR-Code anzeigen, sobald er bereit ist
         TelegramManager.onQrCodeReady = { bitmap: Bitmap? ->
             bitmap?.let { bmp ->
                 activity?.runOnUiThread {
                     ivQrCode.setImageBitmap(bmp)
                 }
+            }
+        }
+
+        // Automatisch zum Hauptbildschirm wechseln, sobald der Login erfolgreich war
+        TelegramManager.onLoginSuccess = {
+            activity?.runOnUiThread {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, MainFragment())
+                    .commit()
             }
         }
 
