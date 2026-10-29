@@ -21,11 +21,11 @@ object TelegramManager {
     private const val API_HASH = "8254d4848a11db32f56b54d736cbe142"
 
     private var currentQrCodeLink: String? = null
+    var onQrCodeReady: ((Bitmap?) -> Unit)? = null
 
     fun initClient(context: Context) {
         if (isInitialized.getAndSet(true)) return
 
-        // TDLib native Bibliothek laden
         try {
             System.loadLibrary("tdjni")
         } catch (e: UnsatisfiedLinkError) {
@@ -38,7 +38,6 @@ object TelegramManager {
             filesDir.mkdirs()
         }
 
-        // TDLib Client starten und Updates korrekt abfangen
         client = Client.create(
             { tdObject -> 
                 if (tdObject is TdApi.Update) {
@@ -64,6 +63,8 @@ object TelegramManager {
                         val state = update.authorizationState as TdApi.AuthorizationStateWaitOtherDeviceConfirmation
                         currentQrCodeLink = state.link
                         Log.i(TAG, "QR-Link empfangen: $currentQrCodeLink")
+                        // QR-Code direkt generieren und an die UI senden
+                        generateAndNotifyQrBitmap()
                     }
                     is TdApi.AuthorizationStateReady -> {
                         Log.i(TAG, "Erfolgreich bei Telegram eingeloggt!")
@@ -101,7 +102,6 @@ object TelegramManager {
     }
 
     private fun requestQrLogin() {
-        // Korrektur: LongArray(0) übergeben, um dem erwarteten Typ zu entsprechen
         client?.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) { result ->
             if (result is TdApi.Error) {
                 Log.e(TAG, "Fehler beim Anfordern des QR-Logins: ${result.message}")
@@ -109,10 +109,11 @@ object TelegramManager {
         }
     }
 
-    fun requestQrCodeBitmap(width: Int, height: Int, callback: (Bitmap?) -> Unit) {
-        val linkToEncode = currentQrCodeLink ?: "https://t.me/login/jtl_tv_waiting"
-        
+    private fun generateAndNotifyQrBitmap() {
+        val linkToEncode = currentQrCodeLink ?: return
         try {
+            val width = 300
+            val height = 300
             val qrCodeWriter = QRCodeWriter()
             val bitMatrix = qrCodeWriter.encode(linkToEncode, BarcodeFormat.QR_CODE, width, height)
             val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
@@ -121,10 +122,10 @@ object TelegramManager {
                     bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
                 }
             }
-            callback(bmp)
+            onQrCodeReady?.invoke(bmp)
         } catch (e: Exception) {
             Log.e(TAG, "QR-Code Generierung fehlgeschlagen", e)
-            callback(null)
+            onQrCodeReady?.invoke(null)
         }
     }
 }
