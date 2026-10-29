@@ -23,13 +23,15 @@ object TelegramManager {
     private var currentQrCodeLink: String? = null
     var onQrCodeReady: ((Bitmap?) -> Unit)? = null
     var onLoginSuccess: (() -> Unit)? = null
+    var onError: ((String) -> Unit)? = null
+
     fun initClient(context: Context) {
         if (isInitialized.getAndSet(true)) return
 
         try {
             System.loadLibrary("tdjni")
         } catch (e: UnsatisfiedLinkError) {
-            Log.e(TAG, "Fehler beim Laden der libtdjni.so: ${e.message}")
+            onError?.invoke("Fehler: libtdjni.so nicht geladen")
             return
         }
 
@@ -44,8 +46,8 @@ object TelegramManager {
                     handleUpdate(tdObject)
                 }
             },
-            { throwable -> Log.e(TAG, "TDLib Error: ${throwable.message}") },
-            { throwable -> Log.e(TAG, "TDLib Fatal Error: ${throwable.message}") }
+            { throwable -> onError?.invoke("TDLib Error: ${throwable.message}") },
+            { throwable -> onError?.invoke("TDLib Fatal: ${throwable.message}") }
         )
     }
 
@@ -57,6 +59,7 @@ object TelegramManager {
                         sendTdlibParameters()
                     }
                     is TdApi.AuthorizationStateWaitPhoneNumber -> {
+                        // Erst hier fordern wir den QR-Login sauber an
                         requestQrLogin()
                     }
                     is TdApi.AuthorizationStateWaitOtherDeviceConfirmation -> {
@@ -65,7 +68,7 @@ object TelegramManager {
                         Log.i(TAG, "QR-Link empfangen: $currentQrCodeLink")
                         generateAndNotifyQrBitmap()
                     }
-                                        is TdApi.AuthorizationStateReady -> {
+                    is TdApi.AuthorizationStateReady -> {
                         Log.i(TAG, "Erfolgreich bei Telegram eingeloggt!")
                         onLoginSuccess?.invoke()
                     }
@@ -94,9 +97,7 @@ object TelegramManager {
         }
         client?.send(parameters) { result ->
             if (result is TdApi.Error) {
-                Log.e(TAG, "Fehler bei SetTdlibParameters: ${result.message}")
-            } else {
-                requestQrLogin()
+                onError?.invoke("Param-Fehler: ${result.message}")
             }
         }
     }
@@ -104,21 +105,26 @@ object TelegramManager {
     private fun requestQrLogin() {
         client?.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) { result ->
             if (result is TdApi.Error) {
-                Log.e(TAG, "Fehler beim Anfordern des QR-Logins: ${result.message}")
+                onError?.invoke("QR-Anfrage-Fehler: ${result.message}")
             }
         }
     }
 
     private fun generateAndNotifyQrBitmap() {
         val linkToEncode = currentQrCodeLink ?: return
-        requestQrCodeBitmap(300, 300) { bmp ->
+        requestQrCodeBitmap(300, 300, linkToEncode) { bmp ->
             onQrCodeReady?.invoke(bmp)
         }
     }
 
-    fun requestQrCodeBitmap(width: Int, height: Int, callback: (Bitmap?) -> Unit) {
-        val linkToEncode = currentQrCodeLink ?: "https://t.me/login/jtl_tv_waiting"
+    fun requestQrCodeBitmap(width: Int, height: Int, customLink: String? = null, callback: (Bitmap?) -> Unit) {
+        val linkToEncode = customLink ?: currentQrCodeLink
         
+        if (linkToEncode == null) {
+            callback(null)
+            return
+        }
+
         try {
             val qrCodeWriter = QRCodeWriter()
             val bitMatrix = qrCodeWriter.encode(linkToEncode, BarcodeFormat.QR_CODE, width, height)
@@ -130,7 +136,7 @@ object TelegramManager {
             }
             callback(bmp)
         } catch (e: Exception) {
-            Log.e(TAG, "QR-Code Generierung fehlgeschlagen", e)
+            onError?.invoke("QR-Generierung fehlgeschlagen")
             callback(null)
         }
     }
